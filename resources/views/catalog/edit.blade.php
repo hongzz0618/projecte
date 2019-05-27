@@ -1,8 +1,4 @@
-<style>
-    body{
-        background-color: #C6C3C3;
-    }
-</style>
+
 @extends('layouts.master')
 @section('content')
 

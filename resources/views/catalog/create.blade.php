@@ -1,8 +1,5 @@
-<style>
-    body{
-        background-color: #C6C3C3;
-    }
-</style>
+
+
 @extends('layouts.master')
 @section('content')
 <div class="row" style="margin-top:20px">

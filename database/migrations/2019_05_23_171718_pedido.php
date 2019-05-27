@@ -14,7 +14,8 @@ class Pedido extends Migration
         Schema::create('pedido', function (Blueprint $table) {
             $table->increments('id');
             $table->enum('tipopedido',['parallevar','comeaqui']);
-            $table->enum('estado',['pendiente','encurso','preparado','encamino','entregado']);
+            $table->enum('estado',['pendiente','encurso','preparado','encamino','entregado'])->default('pendiente');
+            $table->double('total');
             $table->boolean('pagado')->default(false);
             $table->integer('id_cliente')->unsigned();
             $table->foreign('id_cliente')->references('id')->on('cliente');

@@ -63,3 +63,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('login', '\App\Http\Controllers\Auth\LoginController@login');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+Route::get('/', 'ProductsController@index');
+ 
+Route::get('cart', 'ProductsController@cart');
+ 
+Route::get('add-to-cart/{id}', 'ProductsController@addToCart');
