@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Producto;
+use App\Pedido;
+use App\LineaProducto;
 
 class ProductsController extends Controller
 {
@@ -22,57 +24,93 @@ class ProductsController extends Controller
     {
         $product = Producto::find($id);
  
-        if(!$product) {
+        // if(!$product) {
  
-            abort(404);
+        //     abort(404);
  
-        }
+        // }
  
         $cart = session()->get('cart');
  
-        // if cart is empty then this the first product
+      
         if(!$cart) {
  
             $cart = [
                     $id => [
                         "nombre" => $product->nombre,
                         "quantity" => 1,
-                        "imagen" => $product->imagen,
-                        "precio" => $product->precio
+                        "precio" => $product->precio,
+                        "imagen" => $product->imagen
+            
                         
                     ]
             ];
  
             session()->put('cart', $cart);
  
-            return redirect()->back()->with('success', 'Product added to cart successfully!');
+            return redirect()->back()->with('success', 'se añadio perfectamente');
         }
  
-        // if cart not empty then check if this product exist then increment quantity
+        
         if(isset($cart[$id])) {
  
             $cart[$id]['quantity']++;
  
             session()->put('cart', $cart);
  
-            return redirect()->back()->with('success', 'Product added to cart successfully!');
+            return redirect()->back()->with('success', 'se añadio perfectamente');
  
         }
  
-        // if item not exist in cart then add to cart with quantity = 1
+       
         $cart[$id] = [
             "nombre" => $product->nombre,
             "quantity" => 1,
-            "imagen" => $product->imagen,
-            "precio" => $product->precio
+            "precio" => $product->precio,
+            "imagen" => $product->imagen
+  
             
         ];
  
         session()->put('cart', $cart);
  
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
+        return redirect()->back()->with('success', 'se añadio perfectamente');
     }
+
+
+    public function getInsert(){
+        $contacto = new Pedido;
+        $contacto->id;
+        $contacto->tipopedido=request("tipopedido");
+        $contacto->total=request("total");
+        $contacto->pagado=true;
+        $contacto->id_cliente=1;
+        $contacto->save();
+        $cart = session()->get('cart');
+        foreach ($cart as $key => $value) {
+            # code...
+        $contacto1 = new Lineaproducto;
+        $contacto1->cantidad=$value["quantity"];
+        $contacto1->id_producto=$key;
+        $contacto1->id_pedido=$contacto->id;
+        $contacto1->save();
+    }
+        return view('cart.pedido');
+    }
+
     //
+
+    public function getinsertVisa(Request $_request, $id){
+        $n1=$_request->input("n3");
+        $n2=$_request->input("n4");
+        $n3=$_request->input("n5");
+        $arrayProductos = Cliente::find($id);
+        $arrayProductos->visa=$n1;
+        $arrayProductos->numero=$n2;
+        $arrayProductos->numerodedetra=$n3;
+        $arrayProductos->save();
+        return view('cart.visa');
+    }
     public function update(Request $request)
     {
         if($request->id and $request->quantity)
@@ -80,10 +118,14 @@ class ProductsController extends Controller
             $cart = session()->get('cart');
  
             $cart[$request->id]["quantity"] = $request->quantity;
+            if(($request->quantity)>=1){
  
             session()->put('cart', $cart);
  
-            session()->flash('success', 'Cart updated successfully');
+            session()->flash('success', 'se cambio perfectamente');
+            }else{
+                echo '<script language="javascript">alert("No se puede cambiar a una cantidad negativa");</script>'; ;
+            }
         }
     }
  
@@ -100,9 +142,12 @@ class ProductsController extends Controller
                 session()->put('cart', $cart);
             }
  
-            session()->flash('success', 'Product removed successfully');
+            session()->flash('success', 'se elimino perfectamente');
         }
     }
+
+
+
 
 }
 /*YONG FOOD

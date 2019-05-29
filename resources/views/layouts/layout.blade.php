@@ -16,12 +16,14 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="js/jquery-ui-1.12.1.custom/jquery-ui.structure.css" rel="stylesheet" type="text/css" />
+    <link href="js/jquery-ui-1.12.1.custom/jquery-ui.theme.css" rel="stylesheet" type="text/css" /> 
  
 </head>
 <body>
  
 <div class="container">
- 
+@if(session('cart'))
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-12 main-section">
             <div class="dropdown">
@@ -44,7 +46,7 @@
                         </div>
                     </div>
  
-                    @if(session('cart'))
+                
                         @foreach(session('cart') as $id => $details)
                             <div class="row cart-detail">
                                 <div class="col-lg-4 col-sm-4 col-4 cart-detail-img">
@@ -56,7 +58,7 @@
                                 </div>
                             </div>
                         @endforeach
-                    @endif
+                    
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 col-12 text-center checkout">
                             <a href="{{ url('cart') }}" class="btn btn-primary btn-block">Ver todo</a>
@@ -66,6 +68,17 @@
             </div>
         </div>
     </div>
+    @else
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-12 main-section">
+    <div class="dropdown">
+                <button type="button" class="btn btn-info" data-toggle="dropdown">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Carrito de Compras <span class="badge badge-pill badge-danger">0</span>
+                </button>
+    </div>
+    </div>
+    </div>
+    @endif
 </div>
  
 <div class="container page">

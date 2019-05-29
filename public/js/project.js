@@ -1,12 +1,7 @@
 
-
-var data = {"total":0,"rows":[]};
-var totalCost = 0;
 window.onload=function(){
 
     $('#Rpago').hide();
-    $('#compra').scroll();
-
     $("#CancelarP").click(CancelarPago);
     $("#PagarP").click(RealizarPago);
 
@@ -30,7 +25,7 @@ window.onload=function(){
     
     var OpcionesP ={
         width: 450,
-        height: 410,
+        height: 600,
         autoOpen: false,
         modal: true,
         show: {
@@ -45,56 +40,15 @@ window.onload=function(){
     $("#Rpago").dialog(OpcionesP);
     // -------------------------------------
     // Errores de agregar
-    $("#IntroducirDatosP").dialog(ErroresTienda);
+    
     // EDITARJUGADOR
 
 
     // pagar
-
-
-   
-    var dragOpts1={
-        
-        drop: function( event, ui ) {
-
-            $('#Datos2').show();
-            var nombre=$(ui.draggable).text();
-            var precio=parseFloat($(ui.draggable).attr('data-price'));
-            var x='<p>'+nombre+'</p>';
-            var y='<p>'+precio+'</p>';
-            $('#eje').append(x)
-            $('#Precio').append(y)
-            totalCost += precio;
-            $('#Total').html('Total: '+ totalCost +'€');
-            $('#TotalFinal').html('Importe de pago: '+ totalCost +'€');
-            
-        },
-        
-        
-        
-    }
-    
-    $("#compra").droppable(dragOpts1);
-    
     
 }
 
 
-
-function Storage(){
-    if (sessionStorage.length == 0 && localStorage.password ==0) { 
-        alert("BIEN");
-    }else{
-        alert("MAL");
-    }
-}
-//Funcion para mostrar todos los jugadores que hay en la base de datos  
-
-function login(){   
-    if(!$("#InicioS").dialog("isOpen")) {
-        $("#InicioS").dialog("open");
-    }
-}
 
 function CancelarPago(){
     $("#Rpago").dialog("close");
@@ -124,21 +78,13 @@ function TarjetaM(numero){
     return undefined;
 }
 function RealizarPago(){
-    var Titular = $("#TitularP").val();
-    Sololetra = /[0-9]/;
-    
+    Sololetra = /[0-9]/; 
     var hoy= new Date();
     var AnyoFecha = hoy.getFullYear();
     var MesFecha = hoy.getMonth();
     var DiaFecha = hoy.getDate();
     var resultafchahoy=DiaFecha+"/"+(MesFecha+1)+"/"+AnyoFecha;
     var fehcain = document.getElementById("Data").value;
-    
-    if(Sololetra.test(Titular) || Titular.length<1 ) {
-        $('#ErroresTienda').html('El titular tiene que ser obligatorio y tambien no tiene que ser numero');
-        $("#ERRORESTIENDA").dialog("open");
-  
-    }else{
         if($("#V").is(':checked')) {  
             var Numero= $("#NumeroP").val();
             var card = TarjetaV(Numero);
@@ -202,12 +148,13 @@ function RealizarPago(){
         
 
       
-}
+
 
 function pagar(){
-    var Contenido = $("#TotalFinal").text();
-    if (Contenido.length<1) {
-        $('#ErroresTienda').html('No selecciono nada para comprar');
+    var Contenido = $("#total").text();
+
+    if (Contenido<=0) {
+        $('#ErroresTienda').html('No has seleccionado nada al carrito');
         $("#ERRORESTIENDA").dialog("open");
        
     }else{

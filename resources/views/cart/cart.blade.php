@@ -50,7 +50,8 @@
         <tr>
             <td><a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Volver</a></td>
             <td colspan="2" class="hidden-xs"></td>
-            <td class="hidden-xs text-center"><strong>Total {{ $total }} €</strong></td>
+            
+            <td class="hidden-xs text-center"><strong>Total <b id="total"> {{ $total }} </b> €</strong></td>
             <td> <button class="btn btn-primary" id="pagar">Pagar</button></td>
              
         </tr>
@@ -75,7 +76,7 @@
                       <div ><br/>
                 	<label>Tipo de pedido: </label><br/>
                 	
-					<select name="pedido">
+					<select name="tipopedido">
 					  <option value ="parallevar">parallevar</option>
 					  <option  value ="comeaqui">comeaqui</option>
 					
@@ -95,7 +96,7 @@
                     
                     <input type="text"  id="Data" value="12/21" name="n4"> 
                     <label for="Data" class="diseñoData">
-                        <i class="far fa-calendar-alt"></i> <i class="fas fa-angle-down"></i>
+                        
                     </label>
                     
                 </div>
@@ -104,9 +105,10 @@
                     <label>NumeroDedetras:</label>
                     <input id="NumeroD" type="text" value="432" name="n5">
                 </div>
+                <input type="hidden" name="total" value="<?php echo $total; ?>" class="form-control" />
                 <p>Total para pagar: <?php echo $total." €"; ?></p>
-                <button type="button" id="CancelarP" class="btn btn-primary"><i class="fas fa-ban"></i> Cancelar</button>
-                <button type="submit"  id="PagarP" class="btn btn-primary"><i class="fas fa-coins"></i> Pagar</button>
+                <button type="button" id="CancelarP" class="btn btn-primary"> Cancelar</button>
+                <button type="submit"  id="PagarP" class="btn btn-primary"> Pagar</button>
             </form>
     </div>
 
@@ -114,181 +116,7 @@
     <div id="ERRORESTIENDA">
         <p id="ErroresTienda"></p>
     </div>
-<script>
-window.onload=function(){
-
-$('#Rpago').hide();
-$("#CancelarP").click(CancelarPago);
-$("#PagarP").click(RealizarPago);
-
-
-// Pagar
-
-$("#pagar").click(pagar);
-
-//Borrar
-
-// ----------------------------------------
-//Errores de tienda
-var ErroresTienda = {
-    width: 500,
-    height: 150,
-    autoOpen: false,
-    modal: true
-};
-$("#ERRORESTIENDA").dialog(ErroresTienda);
-
-
-var OpcionesP ={
-    width: 450,
-    height: 410,
-    autoOpen: false,
-    modal: true,
-    show: {
-        effect: "blind",
-        duration: 1000
-    },
-    hide: {
-        effect: "explode",
-        duration: 1000
-    }
-}
-$("#Rpago").dialog(OpcionesP);
-// -------------------------------------
-// Errores de agregar
-$("#IntroducirDatosP").dialog(ErroresTienda);
-// EDITARJUGADOR
-
-// pagar
-}
-
-function CancelarPago(){
-    $("#Rpago").dialog("close");
-}
-function TarjetaV(numero) {
-    var TarjetaV = {
-      "Visa": /\b4[0-9]{12}(?:[0-9]{3})?\b/
-    };
-    for(var card in TarjetaV) {
-      if (TarjetaV[card].test(numero)) {
-        var arr = numero.match(TarjetaV[card]);
-        return { type: card, number: arr[0] };
-      }
-    }
-    return undefined;
-}
-function TarjetaM(numero){
-    var TarjetaM = {
-        "Mastercard": /\b5[1-5][0-9]{14}\b/
-    };
-    for(var card in TarjetaM) {
-        if (TarjetaM[card].test(numero)) {
-        var arr = numero.match(TarjetaM[card]);
-        return { type: card, number: arr[0] };
-        }
-    }
-    return undefined;
-}
-function validate_fechaMayorQue(fechaInicial,fechaFinal){
-    valuesStart=fechaInicial.split("/");
-    valuesEnd=fechaFinal.split("/");
-    // Verificamos que la fecha no sea posterior a la actual
-    var dateStart=new Date(valuesStart[2],(valuesStart[1]-1),valuesStart[0]);
-    var dateEnd=new Date(valuesEnd[2],(valuesEnd[1]-1),valuesEnd[0]);
-    if(dateStart>=dateEnd)
-    {
-        return 0;
-    }
-    return 1;
-}
-function RealizarPago(){
-    var Titular = $("#TitularP").val();
-    Sololetra = /[0-9]/;
-    
-    var hoy= new Date();
-    var AnyoFecha = hoy.getFullYear();
-    var MesFecha = hoy.getMonth();
-    var DiaFecha = hoy.getDate();
-    var resultafchahoy=DiaFecha+"/"+(MesFecha+1)+"/"+AnyoFecha;
-    var fehcain = document.getElementById("Data").value;
-    
-    if(Sololetra.test(Titular) || Titular.length<1 ) {
-        $('#ErroresTienda').html('El titular tiene que ser obligatorio y tambien no tiene que ser numero');
-        $("#ERRORESTIENDA").dialog("open");
-  
-    }else{
-        if($("#V").is(':checked')) {  
-            var Numero= $("#NumeroP").val();
-            var card = TarjetaV(Numero);
-            
-            if (card) {
-                if (fehcain.length<1) {
-                    $('#ErroresTienda').html("Introdusca Su fecha de vencimiento porfavor");
-                    $("#ERRORESTIENDA").dialog("open");
-                }else{
-                    if (validate_fechaMayorQue(resultafchahoy,fehcain)) {
-                        window.location.reload(true);
-                        // $('#ErroresTienda').html("Compra realizada "+ card.type);
-                        $("#ERRORESTIENDA").dialog("open");
-
-                    }else{
-                        
-                        $('#ErroresTienda').html("Error fecha pasada cambiar fecha");
-                        $("#ERRORESTIENDA").dialog("open");
-                        
-                        
-                    }
-                }            
-            }else{
-                $('#ErroresTienda').html("ERROR DE TARJETA O NO ES VISA O FALTA INTRODUCIR");
-                $("#ERRORESTIENDA").dialog("open");
-               
-            } 
-        } else if($("#M").is(':checked')) {  
-            var Numero= $("#NumeroP").val();
-            var card = TarjetaM(Numero);
-            if (card) {
-                if (fehcain.length<1) {
-                    $('#ErroresTienda').html("Introdusca Su fecha de vencimiento porfavor");
-                    $("#ERRORESTIENDA").dialog("open");
-                }else{
-                    if (validate_fechaMayorQue(resultafchahoy,fehcain)) {
-                        window.location.reload(true);
-                        // $('#ErroresTienda').html("Compra realizada "+ card.type);
-                        $("#ERRORESTIENDA").dialog("open");
-
-                    }else{
-                        $('#ErroresTienda').html("Error fecha pasada cambiar fecha");
-                        $("#ERRORESTIENDA").dialog("open");
-                        
-                        
-                    }
-                }
-                    
-            }else{
-                $('#ErroresTienda').html('ERROR DE TARJETA O NO ES MASTERCARD O FALTA INTRODUCIR');
-                $("#ERRORESTIENDA").dialog("open");
-                
-            } 
-        }
-        else {  
-            $('#ErroresTienda').html("SELECIONE VISA O MASTERCARD");
-            $("#ERRORESTIENDA").dialog("open");
-            
-        } 
-    }
-        
-
-      
-}
-
-function pagar(){
-    
-            $("#Rpago").dialog("open");
-    
-    
-}
-</script>
+<script src="js/project.js"></script>
 @section('scripts')
  
  
