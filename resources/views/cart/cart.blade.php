@@ -65,10 +65,10 @@
                 {{ csrf_field() }}
                 <div >
                 	<label>Como pagar: </label><br/>
-					<select  name="targeta">
-					  <option id="E"  value ="Efectivo">Efectivo</option>
-					  <option id="V"  value ="Visa">Visa</option>
-					  <option id="M"  value="Mastercard">Mastercard</option>
+					<select  id="targeta" name="targeta">
+					  <option   value ="Efectivo">Efectivo</option>
+					  <option   value ="Visa">Visa</option>
+					  <option   value="Mastercard">Mastercard</option>
 			
 					</select>
                         
@@ -84,6 +84,8 @@
 					</select>
                         
                 </div>
+              
+              <div id="ver">
                 <div>
                 	<br/>
                     <label>NumeroTargeta:</label>
@@ -104,6 +106,8 @@
                 	
                     <label>NumeroDedetras:</label>
                     <input id="NumeroD" type="text" value="432" name="n5">
+                </div>
+
                 </div>
                 <input type="hidden" name="total" value="<?php echo $total; ?>" class="form-control" />
                 <p>Total para pagar: <?php echo $total." €"; ?></p>

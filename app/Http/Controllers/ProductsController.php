@@ -83,7 +83,14 @@ class ProductsController extends Controller
         $contacto->id;
         $contacto->tipopedido=request("tipopedido");
         $contacto->total=request("total");
-        $contacto->pagado=true;
+        $ver=request("targeta");
+        if ($ver=="Efectivo") {
+            $contacto->pagado=false;
+            # code...
+        }else{
+            $contacto->pagado=true;
+            $contacto->estado="encurso";
+        }
         $contacto->id_cliente=1;
         $contacto->save();
         $cart = session()->get('cart');

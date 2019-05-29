@@ -46,7 +46,7 @@
 @foreach( $arrayProductos as $key => $usu )
 <tr>
       <th scope="row">{{$usu['id']}}</th>
-      <td><a href="{{ url('/catalog/show/' . $usu['id']) }}">{{$usu['nombre']}}</a></td>
+     ç <td><a href="{{ url('/catalog/show/' . $usu['id']) }}">{{$usu['nombre']}}</a></td>
       <td>{{$usu['precio']}}</td>
       
     </tr>
