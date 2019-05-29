@@ -56,28 +56,14 @@ body{
 </style>
 
 @extends('layouts.master')
-@section('content')
-<div class="row">
-<div class="col-sm-4">
- {{-- TODO: Titulo del Producto --}}
- <h3>{{$arrayProductos['nombre']}}</h3>
-</div>
-<div class="col-sm-8">
- {{-- TODO: Datos del Producto --}}
 
- <h5><b>precio: </b>{{$arrayProductos['precio']}}</h5><br/><br/><br/>
- <img src="{{$arrayProductos['imagen']}}" alt="">
-</div>
-</div>
-@stop
-<a href="{{ url('/catalog/edit/' . $arrayProductos['id']) }}" id="a" >
-editar Producto
-</a>
+
 
 <a href="{{ url('/catalog/borrar/' . $arrayProductos['id']) }}"  id="a">
-borrar Producto
+Pedido Preparado
 </a>
 
 <a href="{{ url('../') }}"  id="b">
-volver listado de Productos
+volver 
 </a>
+

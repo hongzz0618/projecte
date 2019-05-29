@@ -35,22 +35,29 @@
 <table class="table table-sm table-dark">
   <thead>
     <tr>
-      <th scope="col">codi</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Precio</th>
+      <th scope="col">id</th>
+      <th scope="col">tipopedido</th>
+      <th scope="col">estado</th>
+      <th scope="col">total</th>
+      <th scope="col">pagado</th>
+      <th scope="col">id_cliente</th>
 
     </tr>
   </thead>
   <tbody>
 
-@foreach( $arrayProductos as $key => $usu )
+@foreach( $arrayProductos as $key => $u )
+@if($u['estado']=="encurso")
 <tr>
-      <th scope="row">{{$usu['id']}}</th>
-     ç <td><a href="{{ url('/catalog/show/' . $usu['id']) }}">{{$usu['nombre']}}</a></td>
-      <td>{{$usu['precio']}}</td>
+      <td><a href="{{ url('/catalog/show/' . $u['id']) }}">{{$u['id']}}</a></td>
+      <td>{{$u['tipopedido']}}</td>
+      <td>{{$u['estado']}}</td>
+      <td>{{$u['total']}}</td>
+      <td>{{$u['pagado']}}</td>
+      <td>{{$u['id_cliente']}}</td>
       
     </tr>
-
+@endif
  @endforeach
 
  </tbody>

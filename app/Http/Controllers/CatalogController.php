@@ -4,22 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Pedido;
+use \App\Producto;
 
 class CatalogController extends Controller{
 
     public function getIndex(){
-        $arrayProductos = Producto::all();
+        $arrayProductos = Pedido::all();
         return view('catalog.index', array('arrayProductos'=>$arrayProductos));
     }
     
     public function getShow($id){
-        $arrayProductos = Producto::find($id);
+        $arrayProductos = Pedido::find($id);
         return view('catalog.show', array('arrayProductos'=>$arrayProductos));
     }
 
     public function getDelete($id){
-        $arrayProductos = Producto::find($id);
-        $arrayProductos->delete();
+        $arrayProductos = Pedido::find($id);
+        $arrayProductos->estado="preparado";
+        $arrayProductos->save();
         return view('catalog.borrar', array('arrayProductos'=>$arrayProductos));
     }
 

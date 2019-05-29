@@ -2,8 +2,9 @@
 window.onload=function(){
 
     $('#Rpago').hide();
+    $('#ver').hide();
     $("#CancelarP").click(CancelarPago);
-    $("#targeta").click(ver);
+    $("#targeta").on('change',ver);
 
   
     // Pagar
@@ -51,8 +52,10 @@ window.onload=function(){
 
 
 function ver() {
-    if ($("#targeta").val()="Efectivo") {
+    if ($("#targeta").val()=="Efectivo") {
         $("#ver").css('display', 'none');
+    }else{
+        $("#ver").css('display', 'block');
     }
 }
 function CancelarPago(){
@@ -67,9 +70,9 @@ function pagar(){
         $("#ERRORESTIENDA").dialog("open");
        
     }else{
-        if(!$("#Rpago").dialog("isOpen")) {
+ 
             $("#Rpago").dialog("open");
-        }
+        
     }
     
 }
